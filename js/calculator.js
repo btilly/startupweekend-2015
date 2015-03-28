@@ -8,6 +8,7 @@
  *                                  incomeFromAge,
  *                                  incomeToAge,
  *                              savingsInfo:
+ *                                  currentSavings,
  *                                  savingInterestRate,
  *                                  fromAge,
  *                                  toAge
@@ -26,6 +27,7 @@
  *                                      "incomeToAge":"95"
  *                                      },
  *               "savingsInfo":{
+ *                              "currentSavings":"100",
  *                              "savingInterestRate":"0.6",
  *                              "fromAge":"40",
  *                              "toAge":"65"
@@ -35,7 +37,7 @@
  *                              "avgTaxRate":"33.3",
  *                              "interestRate":".5",
  *                              "capitalGains":"20.0",
- *                              "taxFreeIncome":"0",
+ *                              "taxFreeIncome":"025",
  *                              "dividends":"20"
  *                              }
  *               }
