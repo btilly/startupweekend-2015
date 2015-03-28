@@ -44,7 +44,6 @@ function doCal(jsonData) {
     var incomeFromAge = data.annualDesiredIncome.incomeFromAge;
     var incomeToAge = data.annualDesiredIncome.incomeToAge;
     var numYearsWithIncome = incomeToAge - incomeFromAge;
-    var totalIncomes = desiredIncome * numYearsWithIncome;
     
     var currSavings = data.savingsInfo.currentSavings;
     var savingsInterestRate = data.savingsInfo.savingInterestRate;
@@ -55,6 +54,7 @@ function doCal(jsonData) {
     var retirementInterestRate = data.assumptions.interestRate;
     var inflationRate = data.assumptions.inflationRate;
     var expectedSS = data.assumptions.expectedFromSS;
+    var totalIncomes = (desiredIncome - expectedSS) * numYearsWithIncome;
     
     return simpleFunct;
 }
@@ -69,3 +69,50 @@ var hardFunct = function() {
     var jsonAnswer = '{"monthlyRequiredSavings":"' + mustSave + '"}';
     return jsonAnswer;
 };
+
+/**
+ * Calculate the present value of a some amount in the future to be obtained
+ * by compounding annually.
+ *
+ * @param {number} futureMoney    Final amount desired.
+ * @param {number} interestRate   Interest rate in percent
+ * @param {number} time           Number of years for the investment.
+ * @returns {number}              Present value in dollars
+ */
+function calcPresentValue(futureMoney, interestRate, time) {
+    // presentVal = futureMoney / (1 + rate / n) ^ (n*t)
+    //             futureMoney = final amount
+    //             rate = interest rate as a decimal, not a percent
+    //             n = number of times per year the compounding takes place
+    //             t = duration of investment in years
+    //
+    //             n = 1  for simplicity of demo
+    // presentVal = futureMoney * (1 + r) ^ -t
+    var r = interestRate / 100.0;
+    var foo = Math.pow((1 + r), time);
+    var presentVal = futureMoney / foo;
+    
+    return presentVal;
+}
+/**
+ * Calculate the future value of a principal after compounding annually.
+ *
+ * @param {number} principal      Amount of initial investment in dollars.
+ * @param {number} interestRate   Interest rate in percent
+ * @param {number} time           Number of years for the investment.
+ * @returns {number}              Future value in dollars
+ */
+function calcFutureValue(principal, interestRate, time) {
+    // futureVal = principal * (1 + rate / n) ^ (n*t)
+    //             principal = initial investment
+    //             rate = interest rate as a decimal, not a percent
+    //             n = number of times per year the compounding takes place
+    //             t = duration of investment in years
+    //
+    //             n = 1  for simplicity of demo
+    // futureVal = principal * (1 + r) ^ t
+    var r = interestRate / 100.0;
+    var futureVal = principal * Math.pow((1 + r), time);
+    
+    return futureVal;
+}
