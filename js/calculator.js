@@ -1,9 +1,10 @@
 /**
  * 
  * @param {String}   jsonData   Format:
- *                              expectedFromSSN,
+ *                              expectedFromSS, //added 
  *                              annualDesiredIncome:
- *                                  retirementInterestRate,
+ *                                  annualIncome,
+ *                                  inflationRate,
  *                                  incomeFromAge,
  *                                  incomeToAge,
  *                              savingsInfo:
@@ -18,7 +19,7 @@
  *                                  taxFreeIncome,
  *                                  dividends
  *     sample:  
- *              {"expectedFromSSN":"300",
+ *              {"expectedFromSS":"300",
  *               "annualDesiredIncome":{
  *                                      "retirementInterestRate":"3.5",
  *                                      "incomeFromAge":"65",
