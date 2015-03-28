@@ -15,9 +15,9 @@
  *                                  inflationRate,
  *                                  expectedFromSS, //added 
  *     sample:  
- *              {"expectedFromSS":"300",
+ *              {
  *               "annualDesiredIncome":{
- *                                      "retirementInterestRate":"3.5",
+ *                                      "annualIncome":"3.5",
  *                                      "incomeFromAge":"65",
  *                                      "incomeToAge":"95"
  *                                      },
@@ -28,12 +28,9 @@
  *                              "toAge":"65"
  *                              },
  *               "assumptions":{
- *                              "initInvestments":"10000",
- *                              "avgTaxRate":"33.3",
- *                              "interestRate":".5",
- *                              "capitalGains":"20.0",
- *                              "taxFreeIncome":"025",
- *                              "dividends":"20"
+ *                              "interestRate":"0.5",
+ *                              "inflationRate":"5.2",
+ *                              "expectedFromSS":"20000.0"
  *                              }
  *               }
  *
@@ -43,14 +40,32 @@
 function doCal(jsonData) {
     var data = JSON.parse(jsonData);
     
-    var ssn = data.expectedFromSSN;
-    var desiredIncome = data.annualDesiredIncome;
-    var incomeFromAge = data.incomeFromAge;
-    var incomeToAge = data.incomeToAge;
-    var totalIncomes = 11000;
+    var desiredIncome = data.annualDesiredIncome.annualIncome;
+    var incomeFromAge = data.annualDesiredIncome.incomeFromAge;
+    var incomeToAge = data.annualDesiredIncome.incomeToAge;
+    var numYearsWithIncome = incomeToAge - incomeFromAge;
+    var totalIncomes = desiredIncome * numYearsWithIncome;
     
+    var currSavings = data.savingsInfo.currentSavings;
+    var savingsInterestRate = data.savingsInfo.savingInterestRate;
+    var savingsFromAge = data.savingsInfo.fromAge;
+    var savingsToAge = data.savingsInfo.toAge;
+    var numYearsWithSavings = savingsToAge - savingsFromAge;
     
+    var retirementInterestRate = data.assumptions.interestRate;
+    var inflationRate = data.assumptions.inflationRate;
+    var expectedSS = data.assumptions.expectedFromSS;
+    
+    return simpleFunct;
+}
+var simpleFunct = function() {
     var mustSave = 1000;
     var jsonAnswer = '{"monthlyRequiredSavings":"' + mustSave + '"}';
     return jsonAnswer;
-}
+};
+
+var hardFunct = function() {
+    var mustSave = 0;
+    var jsonAnswer = '{"monthlyRequiredSavings":"' + mustSave + '"}';
+    return jsonAnswer;
+};
