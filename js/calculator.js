@@ -1,10 +1,8 @@
 /**
  * 
  * @param {String}   jsonData   Format:
- *                              expectedFromSS, //added 
  *                              annualDesiredIncome:
  *                                  annualIncome,
- *                                  inflationRate,
  *                                  incomeFromAge,
  *                                  incomeToAge,
  *                              savingsInfo:
@@ -13,12 +11,9 @@
  *                                  fromAge,
  *                                  toAge
  *                              assumptions:
- *                                  initInvestments,
- *                                  avgTaxRate,
  *                                  interestRate,
- *                                  capitalGains,
- *                                  taxFreeIncome,
- *                                  dividends
+ *                                  inflationRate,
+ *                                  expectedFromSS, //added 
  *     sample:  
  *              {"expectedFromSS":"300",
  *               "annualDesiredIncome":{
