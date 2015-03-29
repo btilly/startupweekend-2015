@@ -1,6 +1,18 @@
+/**  Global value.  Amount to save each month.  Main return of the calculator.*/
+var retireAmount = 0;
+/**
+ * Number of years from now until retirement.
+ * Assume constantly put into retirement savings.
+ */
+var numYearsWithIncome;
+/**  Number of years from retirement.  */
+var numYearsWithSavings;
+/**  Combination of savings, contributions, and withdrawls.  */
+var netWorthEachYear = [];
+
 /**
  * 
- * @param {String}   jsonData   Format:
+ * @param {Object}   data   Format:
  *                              annualDesiredIncome:
  *                                  annualIncome,
  *                                  incomeFromAge,
@@ -34,74 +46,102 @@
  *                              }
  *               }
  *
- * @returns {String}            JSON string = monthlyRequiredSavings
+ * @returns {Function}            A function that returns the monthly savings.
  */
-
-function doCal(jsonData) {
-    var data = JSON.parse(jsonData);
-    
+function doCal(data) {
     var desiredIncome = data.annualDesiredIncome.annualIncome;
     var incomeFromAge = data.annualDesiredIncome.incomeFromAge;
     var incomeToAge = data.annualDesiredIncome.incomeToAge;
-    var numYearsWithIncome = incomeToAge - incomeFromAge;
+    numYearsWithIncome = incomeToAge - incomeFromAge;
     
     var currSavings = data.savingsInfo.currentSavings;
     var savingsInterestRate = data.savingsInfo.savingInterestRate;
     var savingsFromAge = data.savingsInfo.fromAge;
     var savingsToAge = data.savingsInfo.toAge;
-    var numYearsWithSavings = savingsToAge - savingsFromAge;
+    numYearsWithSavings = savingsToAge - savingsFromAge;
     
     var retirementInterestRate = data.assumptions.interestRate;
     var inflationRate = data.assumptions.inflationRate;
     var expectedSS = data.assumptions.expectedFromSS;
-    var totalIncomes = (desiredIncome - expectedSS) * numYearsWithIncome;
     
-    return simpleFunct;
+    //var testMoney = calcPresentRetireMoneys(100, 5.0, 1, 0);
+    //console.log(testMoney);
+    //testMoney = calcPresentRetireMoneys(100, 5.0, 2, 0);
+    //console.log(testMoney);
+    //testMoney = calcPresentRetireMoneys(100, 5.0, 3, 0);
+    //console.log(testMoney);
+
+    var retiredAmount = calcPresentRetireMoneys(desiredIncome - expectedSS,
+            retirementInterestRate - inflationRate, numYearsWithIncome, 0);
+    retireAmount = calcMonthlyComps(retiredAmount - currSavings,
+            savingsInterestRate - inflationRate, numYearsWithSavings);
+    retireAmount /= 12;  // It was annual.
+    
+    var i;
+    var dollars = currSavings;
+    for(i = 0; i < numYearsWithIncome; i++) {
+        dollars += retireAmount;
+        netWorthEachYear[i] = dollars;
+    }
+    for(i = numYearsWithIncome; 
+        i < (numYearsWithIncome + numYearsWithSavings); i++) {
+        dollars += expectedSS - desiredIncome;
+        netWorthEachYear[i] = dollars;
+    }
+    
+    return hardFunct;
 }
-var simpleFunct = function() {
-    var mustSave = 1000;
-    var jsonAnswer = '{"monthlyRequiredSavings":"' + mustSave + '"}';
-    return jsonAnswer;
-};
-
-var hardFunct = function() {
-    var mustSave = 0;
-    var jsonAnswer = '{"monthlyRequiredSavings":"' + mustSave + '"}';
-    return jsonAnswer;
-};
-
 /**
- * Calculate the present value of a some amount in the future to be obtained
- * by compounding annually.
+ * Calculate the monthly saving amount based on the total amount needed at the
+ * start of retirement.
  *
- * @param {number} futureMoney    Final amount desired.
- * @param {number} interestRate   Interest rate in percent
- * @param {number} time           Number of years for the investment.
- * @returns {number}              Present value in dollars
+ * @param {Number} howMuchWanted  Total amount needed at the start of retirement
+ * @param {Number} interestRate   Savings interest rate in percent.
+ * @param {Number} workingYears   Number of years before retirement.
+ * @returns {Number}              Amount needed to be saved each month.
  */
-function calcPresentValue(futureMoney, interestRate, time) {
-    // presentVal = futureMoney / (1 + rate / n) ^ (n*t)
-    //             futureMoney = final amount
-    //             rate = interest rate as a decimal, not a percent
-    //             n = number of times per year the compounding takes place
-    //             t = duration of investment in years
-    //
-    //             n = 1  for simplicity of demo
-    // presentVal = futureMoney * (1 + r) ^ -t
+function calcMonthlyComps(howMuchWanted, interestRate, workingYears) {
     var r = interestRate / 100.0;
-    var foo = Math.pow((1 + r), time);
-    var presentVal = futureMoney / foo;
-    
-    return presentVal;
+    var foo = 1 - Math.pow((1 + r), -workingYears);
+    var answer = r * howMuchWanted / foo;
+    return answer;
 }
 /**
- * Calculate the future value of a principal after compounding annually.
- *
- * @param {number} principal      Amount of initial investment in dollars.
- * @param {number} interestRate   Interest rate in percent
- * @param {number} time           Number of years for the investment.
- * @returns {number}              Future value in dollars
+ * 
+ * @param {Number} desiredIncome
+ * @param {Number} interestRate
+ * @param {Number} retireYears
+ * @param {Number} workingYears
+ * @returns {Number}
  */
+function calcPresentRetireMoneys(desiredIncome, interestRate, retireYears,
+        workingYears) {
+    var r = interestRate / 100.0;
+    var i;
+    var moneysAtRetire;
+    for (i = 1, moneysAtRetire = 0; i <= retireYears; i++) {
+        moneysAtRetire += Math.pow((1 + r), i) - 1;
+    }
+    moneysAtRetire = desiredIncome * (moneysAtRetire + 1);
+    // Now, do present value calc to get the retireMoneys back to current time.
+    return moneysAtRetire;
+}
+
+/**
+ * Returned from doCal() function.  Used by user interface.
+ * If no parameters, return the amount to save each month.
+ * If parameters are supplied, return an array with net worth at each year.
+ *
+ * @param {type} args    Not important, just exist or not exist.
+ * @returns              Monthly investment amount or annual net worth.
+ */
+var hardFunct = function(args) {
+    if (args === undefined) {
+        return retireAmount;
+    } else {
+        return netWorthEachYear;
+    }
+};
 function calcFutureValue(principal, interestRate, time) {
     // futureVal = principal * (1 + rate / n) ^ (n*t)
     //             principal = initial investment
