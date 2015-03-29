@@ -3,11 +3,12 @@ $(function(){
 		var form_ok = true;
 		var form_value = function (name){
 			var el = $('[name=' + name +']');
-			console.log(name, el);
 			var val = el.val().length > 0 ? el.val(): el.attr('placeholder');
 			if (val == undefined){
 				el.parent().addClass('has-error');
 				form_ok = false;
+			}else{
+				el.parent().removeClass('has-error');
 			}
 		};
 		var data = {
@@ -29,12 +30,13 @@ $(function(){
 				}
 			
 		};
-		console.log(data);
+
 		if (!form_ok){
 			$('#form-error').removeClass('hidden');
-			console.log($('#form-error'));
 		}else{
 			$('#form-error').addClass('hidden');
+			var cal = doCal(data);
+			console.log(cal);
 		}
 	});
 });
