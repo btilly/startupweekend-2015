@@ -36,7 +36,6 @@ $(function(){
 		}else{
 			$('#form-error').addClass('hidden');
 			var cal = doCal(data);
-			console.log(cal);
 			$('#saving-answer').html(cal())
 			$('#saving-answer').closest('.hidden').removeClass('hidden');
 			
