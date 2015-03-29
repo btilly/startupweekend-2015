@@ -14,7 +14,7 @@ $(function(){
 		};
 		var data = {
                                annualDesiredIncome: {
-                                   annualIncome: form_value('desired'),
+                                   annualIncome: form_value('desired') * 1000,
                                    incomeFromAge: form_value('myage'),
                                    incomeToAge: form_value('lifespan')
 				},
