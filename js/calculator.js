@@ -64,8 +64,7 @@ function doCal(jsonData) {
     //console.log(testMoney);
 
     var retiredAmount = calcPresentRetireMoneys(desiredIncome - expectedSS,
-            retirementInterestRate - inflationRate, numYearsWithIncome,
-            numYearsWithSavings);
+            retirementInterestRate - inflationRate, numYearsWithIncome, 0);
     retireAmount = calcMonthlyComps(retiredAmount - currSavings,
             savingsInterestRate - inflationRate, numYearsWithSavings);
     retireAmount /= 12;  // It was annual.
