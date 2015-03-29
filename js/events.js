@@ -60,7 +60,7 @@ $(function(){
                        graphData = calcDistribution(options);
 			$('#age_broke').html(ageRunOutBottom10Pct(graphData));
 			$('#money_left').html(finalWealthTop10Pct(graphData));
-			$('#lifespan_capture').html(90);
+			$('#lifespan_capture').html(form_value('lifespan'));
                         graphWorthData(graphData);                        
 
 		    $('#question').hide();
