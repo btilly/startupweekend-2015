@@ -38,13 +38,9 @@ $(function(){
 		}else{
 			$('#form-error').addClass('hidden');
 			var cal = doCal(data);
-`
+
                         var monthlySavings = cal().toFixed(2);
-			$('#saving-answer').html(monthlySavings, 2)
-                        
-                        // Ed's graph.
-                        //var graphData = dataForWorthGraph(cal('worthData'));
-                        //graphWorthData(graphData);
+			$('#saving-answer').html(monthlySavings, 2);
                         
                         // Ben's graph
                         var options = {
