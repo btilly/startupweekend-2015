@@ -13,6 +13,7 @@
     <link href="assets/css/bootstrap.css" rel="stylesheet">
     <!--external css-->
     <link href="assets/font-awesome/css/font-awesome.css" rel="stylesheet" />
+    <link href="assets/css/slider.css" rel="stylesheet">
         
     <!-- Custom styles for this template -->
     <link href="assets/css/style.css" rel="stylesheet">
@@ -236,7 +237,8 @@ Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, ad
                           <div class="form-group">
                               <label class="col-sm-1 col-sm-1 control-label">Desired Net Income</label>
                               <div class="col-sm-3">
-                                  <input type="text" class="form-control" name="desired">
+                                  <input type="text" "form-control" name="desiredSlider" id="desiredSlider">
+                                  <input type="text" class="form-control" name="desired" id="desired">
                                   <span class="help-block">inflation-adjusted post-tax income in today's dollars</span>
                               </div>
                           </div>
@@ -326,6 +328,7 @@ Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, ad
     <script class="include" type="text/javascript" src="assets/js/jquery.dcjqaccordion.2.7.js"></script>
     <script src="assets/js/jquery.scrollTo.min.js"></script>
     <script src="assets/js/jquery.nicescroll.js" type="text/javascript"></script>
+    <script src="assets/js/bootstrap-slider.js"></script>
 
 
     <!--common script for all pages-->
@@ -334,10 +337,48 @@ Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, ad
     <!--script for this page-->
     
   <script>
-      //custom select box
+      // Setup function for sliders.
+      function setupSlider (options) {
+          // set up variables;
+          var sliderSel = '#' + options.sliderId;
+          var inputSel = '#' + options.inputId;
+          var updateInput = true;
+          var step = (options.step === undefined) ? 0.01 : options.step;
 
-      $(function(){
-          $('select.styled').customSelect();
+          // set default options
+          options.step = step;
+          options.handle = options.handle || 'round';
+          options.tooltip = options.tooltip || 'hide';
+          if (options.min === undefined) {
+              options.min = 0;
+          }
+          if (options.max === undefined) {
+              options.max = 10;
+          }
+
+          // Set up functionality.
+          options['formater'] = function (value) {
+              value = step * Math.round(value/step);
+              if (updateInput) {
+                  $(inputSel).val(value);
+              }
+              return 'Current value: '+value;
+          };
+          $(sliderSel).slider(options);
+          $(inputSel).keyup(function () {
+              updateInput = false;
+              $(sliderSel).slider('setValue', $(inputSel).val());
+              updateInput = true;
+          });
+      }
+
+      setupSlider({
+        inputId: "desired",
+        sliderId: "desiredSlider",
+        min: 0,
+        max: 200000,
+        step: 1000,
+        value: 50000
       });
 
   </script>
