@@ -39,7 +39,7 @@
 
 function doCal(jsonData) {
 //    var data = JSON.parse(jsonData);
-    var data = jsonDat;
+    var data = jsonData;
     
     var desiredIncome = data.annualDesiredIncome.annualIncome;
     var incomeFromAge = data.annualDesiredIncome.incomeFromAge;
@@ -55,7 +55,6 @@ function doCal(jsonData) {
     var retirementInterestRate = data.assumptions.interestRate;
     var inflationRate = data.assumptions.inflationRate;
     var expectedSS = data.assumptions.expectedFromSS;
-    var totalIncomes = (desiredIncome - expectedSS) * numYearsWithIncome;
     
     //var testMoney = calcPresentRetireMoneys(100, 5.0, 1, 0);
     //console.log(testMoney);
@@ -64,11 +63,20 @@ function doCal(jsonData) {
     //testMoney = calcPresentRetireMoneys(100, 5.0, 3, 0);
     //console.log(testMoney);
 
-    retireAmount = calcPresentRetireMoneys(desiredIncome - expectedSS,
+    var retiredAmount = calcPresentRetireMoneys(desiredIncome - expectedSS,
             retirementInterestRate - inflationRate, numYearsWithIncome,
             numYearsWithSavings);
+    retireAmount = calcMonthlyComps(retiredAmount - currSavings,
+            savingsInterestRate - inflationRate, numYearsWithSavings);
+    retireAmount /= 12;  // It was annual.
     
     return simpleFunct;
+}
+function calcMonthlyComps(howMuchWanted, interestRate, workingYears) {
+    var r = interestRate / 100.0;
+    var foo = 1 - Math.pow((1 + r), -workingYears);
+    var answer = r * howMuchWanted / foo;
+    return answer;
 }
 /**  Global value.  Amount to save each month.  Main return of the calculator.*/
 var retireAmount = 0;
