@@ -173,5 +173,5 @@ function ageRunOutBottom10Pct (data) {
 }
 
 function finalWealthTop10Pct (data) {
-    return data[data.length - 1]["percent-90"];
+    return data[data.length - 1]["percent-90"].toString().replace(/\B(?=(\d{3})+\b)/g, ",");
 }
