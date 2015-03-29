@@ -100,8 +100,11 @@ function doCal(data) {
 function calcMonthlyComps(howMuchWanted, interestRate, workingYears) {
     var r = interestRate / 100.0;
     var foo = 1 - Math.pow((1 + r), -workingYears);
-    var answer = r * howMuchWanted / foo;
-    return answer;
+    if (foo < 1e-4) {
+        return howMuchWanted;
+    } else {
+        return r * howMuchWanted / foo;
+    }
 }
 /**
  * 
