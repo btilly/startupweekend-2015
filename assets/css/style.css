@@ -2309,6 +2309,7 @@ hr {
 }
 #sidebar {
 	background: black;
+	font-size: 16px;
 }
 .onright .onleft{
 }
@@ -2322,4 +2323,10 @@ hr {
 	font-size: 20px;
 	color: #35bdb3;
 	font-weight: bold;
+}
+.risk {
+	font-size: 20px;
+	padding: 30px;
+	color: black;
+	text-align: left;
 }

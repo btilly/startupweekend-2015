@@ -58,14 +58,17 @@ $(function(){
                         
                         // Ben's graph
                        graphData = calcDistribution(options);
-                       console.log(ageRunOutBottom10Pct(graphData));
-                       console.log(finalWealthTop10Pct(graphData));
+			$('#age_broke').html(ageRunOutBottom10Pct(graphData));
+			$('#money_left').html(finalWealthTop10Pct(graphData));
+			$('#lifespan_capture').html(90);
                         graphWorthData(graphData);                        
 
 		    $('#question').hide();
                     $('#saving-answer').closest('.hidden').removeClass('hidden');
+                    $('#risk').removeClass('hidden');
 		    $.recompute_ready = true;
 		}
+		$('section').scrollTop(500);
 	});
 });
 
