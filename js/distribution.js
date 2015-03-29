@@ -51,6 +51,7 @@ function calcDistribution (options) {
     var saveToAnswer = function (period) {
         var thisRecord = {
             year: (currentYear + period).toString(),
+            age: (period + incomeFromAge).toString(),
             "percent-10-raw": findAvgWorth(1),
             "percent-30-raw": findAvgWorth(5),
             "percent-50-raw": findAvgWorth(9),
@@ -157,4 +158,20 @@ function calcSavingAmount (inputOptions) {
         }
     }
     return lowerBound;
+}
+
+function ageRunOutBottom10Pct (data) {
+    var lastAge;
+    for (var i = 1; i < data.length; i++) {
+        if (0 < data[i]["percent-10"]) {
+            lastAge = data[i].age;
+        }
+        else {
+            return lastAge;
+        }
+    }
+}
+
+function finalWealthTop10Pct (data) {
+    return data[data.length - 1]["percent-90"];
 }

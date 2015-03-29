@@ -58,6 +58,8 @@ $(function(){
                         
                         // Ben's graph
                        graphData = calcDistribution(options);
+                       console.log(ageRunOutBottom10Pct(graphData));
+                       console.log(finalWealthTop10Pct(graphData));
                         graphWorthData(graphData);                        
 
 		    $('#question').hide();
