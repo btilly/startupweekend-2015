@@ -1,7 +1,7 @@
 $(function(){
 	$('#calculate').click(function(){
 		var form_ok = true;
-		var form_value = function (name){
+		var form_value = function (name) {
 			var el = $('[name=' + name +']');
 			var val = el.val().length > 0 ? el.val(): el.attr('placeholder');
 			if (val == undefined){
@@ -37,6 +37,9 @@ $(function(){
 			$('#form-error').addClass('hidden');
 			var cal = doCal(data);
 			console.log(cal);
+			$('#saving-answer').html(cal())
+			$('#saving-answer').closest('.hidden').removeClass('hidden');
+			
 		}
 	});
 });
