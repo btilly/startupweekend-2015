@@ -12,7 +12,7 @@ var netWorthEachYear = [];
 
 /**
  * 
- * @param {Object}   jsonData   Format:
+ * @param {Object}   data   Format:
  *                              annualDesiredIncome:
  *                                  annualIncome,
  *                                  incomeFromAge,
@@ -48,10 +48,7 @@ var netWorthEachYear = [];
  *
  * @returns {Function}            A function that returns the monthly savings.
  */
-function doCal(jsonData) {
-//    var data = JSON.parse(jsonData);
-    var data = jsonData;
-    
+function doCal(data) {
     var desiredIncome = data.annualDesiredIncome.annualIncome;
     var incomeFromAge = data.annualDesiredIncome.incomeFromAge;
     var incomeToAge = data.annualDesiredIncome.incomeToAge;
@@ -79,6 +76,18 @@ function doCal(jsonData) {
     retireAmount = calcMonthlyComps(retiredAmount - currSavings,
             savingsInterestRate - inflationRate, numYearsWithSavings);
     retireAmount /= 12;  // It was annual.
+    
+    var i;
+    var dollars = currSavings;
+    for(i = 0; i < numYearsWithIncome; i++) {
+        dollars += retireAmount;
+        netWorthEachYear[i] = dollars;
+    }
+    for(i = numYearsWithIncome; 
+        i < (numYearsWithIncome + numYearsWithSavings); i++) {
+        dollars += expectedSS - desiredIncome;
+        netWorthEachYear[i] = dollars;
+    }
     
     return hardFunct;
 }
@@ -133,3 +142,17 @@ var hardFunct = function(args) {
         return netWorthEachYear;
     }
 };
+function calcFutureValue(principal, interestRate, time) {
+    // futureVal = principal * (1 + rate / n) ^ (n*t)
+    //             principal = initial investment
+    //             rate = interest rate as a decimal, not a percent
+    //             n = number of times per year the compounding takes place
+    //             t = duration of investment in years
+    //
+    //             n = 1  for simplicity of demo
+    // futureVal = principal * (1 + r) ^ t
+    var r = interestRate / 100.0;
+    var futureVal = principal * Math.pow((1 + r), time);
+    
+    return futureVal;
+}
