@@ -414,8 +414,7 @@ ul.sidebar-menu li a.active i {
 }
 
 .black-bg {
-    background: #ffd777;
-    border-bottom: 1px solid #c9aa5f;
+    background: #35bdb3;
 }
 
 .wrapper {
@@ -1748,7 +1747,6 @@ label {
 }
 
 .form-horizontal.style-form .form-group {
-	border-bottom: 1px solid #eff2f7;
 	padding-bottom: 15px;
 	margin-bottom: 15px;
 }
@@ -2241,3 +2239,78 @@ label {
     min-height: 900px;
 }
 
+.sidebar-toggle-box {
+    color: white;
+    padding-top: 6px;
+    padding-right: 30px;
+}
+
+h3 {
+    font-family: Verdana;
+    text-transform: uppercase;
+    padding-left: 10px;
+}
+h4 {
+    padding-left: 5px;
+    color: #35bdb3;
+}
+
+.circle {
+    display: block;
+    float: left;
+    width: 40px;
+    height: 40px;
+    border-radius: 40px;
+    border-radius: 25px;
+    border: 3px solid #35bdb3;
+    text-align: center;
+    top: -10px;
+    position: relative;
+    line-height: 35px;
+    margin: 0 10px 0 10px;
+}
+
+label{
+	font-weight: bold;
+}
+.left {
+	float: left;
+}
+input.form-control {
+	color: #35bdb3;
+        font-size: 16px;
+        padding-bottom: 4px;
+}
+.input-group-addon {
+	background: transparent;
+	border: none;
+	color: #35bdb3;
+	font-size: 20px;
+}
+hr {
+	border: none;
+	border-bottom: 2px solid #eff2f7;
+}
+.btn-primary {
+	background: #35bdb3;
+	padding-left: 20px;
+	padding-right: 20px;
+	border-color: transparent;
+}
+.form-panel {
+	border-radius: 6px;
+	box-shadow: none;
+	border-top: 1px solid #35bdb3;
+	margin: 5px;
+}
+#sidebar {
+	background: black;
+}
+.onright .onleft{
+}
+.onleft {
+	padding-right: 5px;
+}
+.onright {
+	padding-left: 5px;
+}
