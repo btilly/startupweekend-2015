@@ -28,10 +28,9 @@ var historicalLogNormalSD = 0.271923959338221;
  *
  **/
 function calcDistribution (options) {
-    console.log(options);
     var initial = Number(options.initialInvestment);
     var interestRate = Number(options.interestRate);
-    var savingAmount = Number(options.savingRate);
+    var savingAmount = Number(options.savingAmount);
     var retirementAmount = Number(options.retirementIncome);
     var incomeFromAge = Number(options.incomeFromAge);
     var incomeToAge = Number(options.incomeToAge);
@@ -46,18 +45,23 @@ function calcDistribution (options) {
     var answer = [];
     var currentYear = new Date().getFullYear();
     var findAvgWorth = function (i) {
-        var value = (currentWorth[i] + currentWorth[i+1])/2;
-        return (0 < value) ? value : 0;
+        return (currentWorth[i] + currentWorth[i+1])/2;
     };
+    var labels = ["percent-10", "percent-30", "percent-50", "percent-70", "percent-90"];
     var saveToAnswer = function (period) {
-        answer.push({
+        var thisRecord = {
             year: (currentYear + period).toString(),
-            "percent-10": findAvgWorth(1),
-            "percent-30": findAvgWorth(5),
-            "percent-50": findAvgWorth(9),
-            "percent-70": findAvgWorth(13),
-            "percent-90": findAvgWorth(17)
-        });
+            "percent-10-raw": findAvgWorth(1),
+            "percent-30-raw": findAvgWorth(5),
+            "percent-50-raw": findAvgWorth(9),
+            "percent-70-raw": findAvgWorth(13),
+            "percent-90-raw": findAvgWorth(17)
+        };
+        for (var i = 0; i < labels.length; i++) {
+            var value = thisRecord[labels[i] + "-raw"];
+            thisRecord[labels[i]] = (0 < value) ? value.toFixed(2) : 0;
+        }
+        answer.push(thisRecord);
     };
 
     var standardDeviation =
@@ -93,7 +97,7 @@ function calcDistribution (options) {
     }
 
     // Calculate what happens over retirement period.
-    for (var i = incomeToAge; i < incomeToAge + 1; i++) {
+    for (var i = incomeToAge; i < retirementToAge + 1; i++) {
         saveToAnswer(i - incomeFromAge);
         var nextWorth = [];
         for (var j = 0; j < currentWorth.length; j++) {
@@ -121,7 +125,36 @@ function calcDistribution (options) {
         }
     }
 
-    console.log(answer);
     return answer;
 }
 
+function calcSavingAmount (inputOptions) {
+    var options = inputOptions;
+    var lowerBound = 0;
+    var upperBound = 100;
+    options["savingAmount"] = upperBound * 12;
+    //console.log(options);
+    var data = calcDistribution(options);
+    while (data[ data.length - 1 ]["percent-50-raw"] < 0) {
+        //console.log({lower: lowerBound, upper:upperBound, value: data[ data.length - 1 ]["percent-50-raw"]})
+        lowerBound = upperBound;
+        upperBound = 2 * upperBound;
+        options.savingAmount = upperBound * 12;
+        data = calcDistribution(options);
+    }
+
+    while (lowerBound + 0.015 < upperBound) {
+        //console.log({lower: lowerBound, upper:upperBound, value: data[ data.length - 1 ]["percent-50-raw"]})
+        var midBound = Number(((lowerBound + upperBound)/2).toFixed(2));
+        options.savingAmount = upperBound * 12;
+        data = calcDistribution(options);
+        var finalValue = data[ data.length - 1 ]["percent-50-raw"];
+        if (finalValue < 0) {
+            lowerBound = midBound;
+        }
+        else {
+            upperBound = midBound;
+        }
+    }
+    return lowerBound;
+}

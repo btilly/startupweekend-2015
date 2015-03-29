@@ -37,22 +37,27 @@ $(function(){
 			$('#form-error').removeClass('hidden');
 		}else{
 			$('#form-error').addClass('hidden');
-			var cal = doCal(data);
-
-                        var monthlySavings = cal().toFixed(2);
-			$('#saving-answer').html(monthlySavings, 2);
-                        
-                        // Ben's graph
                         var options = {
-                                           initialInvestment: form_value('savings'),
-                                           interestRate: form_value('interest') * 1e-2,
-                                           savingRate: monthlySavings * 12,
+                                           initialInvestment: form_value('savings') * 1000,
+                                           interestRate: form_value('interest') * 1e-2 - form_value('inflation') * 1e-2,
                                            retirementIncome: form_value('desired') * 1000,
                                            incomeFromAge: form_value('myage'),
                                            incomeToAge: form_value('retireage'),
                                            retirementToAge: form_value('lifespan')
                                    };
-                        graphData = calcDistribution(options);
+			var cal = doCal(data);
+                        //var monthlySavings = cal().toFixed(2);
+                        var monthlySavings = calcSavingAmount(options);
+                        options.savingAmount = monthlySavings * 12;
+                        //console.log(options)
+			$('#saving-answer').html(monthlySavings, 2)
+                        
+                        // Ed's graph.
+                        //var graphData = dataForWorthGraph(cal('worthData'));
+                        //graphWorthData(graphData);
+                        
+                        // Ben's graph
+                       graphData = calcDistribution(options);
                         graphWorthData(graphData);                        
 
 		    $('#question').hide();
