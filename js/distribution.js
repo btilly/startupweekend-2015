@@ -146,7 +146,7 @@ function calcSavingAmount (inputOptions) {
     while (lowerBound + 0.015 < upperBound) {
         //console.log({lower: lowerBound, upper:upperBound, value: data[ data.length - 1 ]["percent-50-raw"]})
         var midBound = Number(((lowerBound + upperBound)/2).toFixed(2));
-        options.savingAmount = upperBound * 12;
+        options.savingAmount = midBound * 12;
         data = calcDistribution(options);
         var finalValue = data[ data.length - 1 ]["percent-50-raw"];
         if (finalValue < 0) {
