@@ -223,6 +223,10 @@ Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, ad
       <section id="main-content">
           <section class="wrapper site-min-height">
           	<h3><i class="fa fa-angle-right"></i> Fast and Fun Retirement Calculator</h3>
+		
+		<div class="alert alert-danger hidden " id="form-error">
+			Be sure to fill in all the fields and let's calculate!
+		</div>
           	<div class="row mt">
                       <form class="form-horizontal style-form" method="get">
           		<div class="col-lg-12">
@@ -240,17 +244,23 @@ Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, ad
 			<div class="form-group">
                               <label class="col-sm-1 col-sm-1 control-label">Your age</label>
                               <div class="col-sm-1">
-                                  <input type="text" class="form-control" name="fromage">
+                                  <input type="text" class="form-control" name="myage">
                               </div>
                               <label class="col-sm-1 col-sm-1 control-label">Retirement age</label>
                               <div class="col-sm-1">
-                                  <input type="text" class="form-control" name="fromage" placeholder="65">
+                                  <input type="text" class="form-control" name="retireage" placeholder="65">
                               </div>
                               <label class="col-sm-1 col-sm-1 control-label">Lifespan</label>
                               <div class="col-sm-1">
-                                  <input type="text" class="form-control" name="toage" placeholder="90">
+                                  <input type="text" class="form-control" name="lifespan" placeholder="90">
                               </div>
                 	</div>
+			<div class="form-group">
+                              <label class="col-sm-1 col-sm-1 control-label">Existing savings</label>
+                              <div class="col-sm-1">
+                                  <input type="text" class="form-control" name="savings">
+                              </div>
+			</div>
 		</div>
 		</div>
 		<div class="col-lg-12">
@@ -267,7 +277,7 @@ Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, ad
                           <div class="form-group">
 				<label class="col-sm-2 col-sm-2 control-label">Inflation index at</label>
                               <div class="col-sm-1">
-                                  <input type="text" class="form-control" name="indexat" placeholder="3">
+                                  <input type="text" class="form-control" name="inflation" placeholder="3">
                               </div>
                               <label class="col-sm-1 col-sm-1 control-label">%</label>
 			
@@ -275,7 +285,7 @@ Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, ad
 			<div class="form-group">
                               <label class="col-sm-2 col-sm-2 control-label">Savings Interest Rate</label>
                               <div class="col-sm-1">
-                                  <input type="text" class="form-control" name="fromage">
+                                  <input type="text" class="form-control" name="interest">
                               </div>
                               <label class="col-sm-1 col-sm-1 control-label">%</label>
                 	</div>
@@ -285,7 +295,7 @@ Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, ad
 		<div class="form-panel">
 			<div class="form-group">
                               <div class="col-sm-5 text-center">
-			<button class="btn btn-primary btn-lg" type="button">Plan it!</button>
+			<button class="btn btn-primary btn-lg" type="button" id="calculate">Plan it!</button>
                               </div>
 			</div>
 		</div>
@@ -327,17 +337,7 @@ Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, ad
 
     <!--common script for all pages-->
     <script src="assets/js/common-scripts.js"></script>
-
-    <!--script for this page-->
-    
-  <script>
-      //custom select box
-
-      $(function(){
-          $('select.styled').customSelect();
-      });
-
-  </script>
+    <script src="js/events.js"></script>
 
   </body>
 </html>
