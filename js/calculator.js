@@ -34,7 +34,7 @@
  *                              }
  *               }
  *
- * @returns {String}            JSON string = monthlyRequiredSavings
+ * @returns {String}            A function that returns the monthly savings.
  */
 
 function doCal(data) {
@@ -52,19 +52,27 @@ function doCal(data) {
     var retirementInterestRate = data.assumptions.interestRate;
     var inflationRate = data.assumptions.inflationRate;
     var expectedSS = data.assumptions.expectedFromSS;
-    var totalIncomes = (desiredIncome - expectedSS) * numYearsWithIncome;
     
-    var testMoney = calcPresentRetireMoneys(100, 5.0, 1, 0);
-    console.log(testMoney);
-    testMoney = calcPresentRetireMoneys(100, 5.0, 2, 0);
-    console.log(testMoney);
-    testMoney = calcPresentRetireMoneys(100, 5.0, 3, 0);
-    console.log(testMoney);
+    //var testMoney = calcPresentRetireMoneys(100, 5.0, 1, 0);
+    //console.log(testMoney);
+    //testMoney = calcPresentRetireMoneys(100, 5.0, 2, 0);
+    //console.log(testMoney);
+    //testMoney = calcPresentRetireMoneys(100, 5.0, 3, 0);
+    //console.log(testMoney);
 
-    retireAmount = calcPresentRetireMoneys(desiredIncome - expectedSS,
-            retirementInterestRate, numYearsWithIncome, numYearsWithSavings);
+    var retiredAmount = calcPresentRetireMoneys(desiredIncome - expectedSS,
+            retirementInterestRate - inflationRate, numYearsWithIncome, 0);
+    retireAmount = calcMonthlyComps(retiredAmount - currSavings,
+            savingsInterestRate - inflationRate, numYearsWithSavings);
+    retireAmount /= 12;  // It was annual.
     
     return simpleFunct;
+}
+function calcMonthlyComps(howMuchWanted, interestRate, workingYears) {
+    var r = interestRate / 100.0;
+    var foo = 1 - Math.pow((1 + r), -workingYears);
+    var answer = r * howMuchWanted / foo;
+    return answer;
 }
 /**  Global value.  Amount to save each month.  Main return of the calculator.*/
 var retireAmount = 0;
@@ -90,9 +98,7 @@ function calcPresentRetireMoneys(desiredIncome, interestRate, retireYears,
     return currRetireMoneys;
 }
 var simpleFunct = function() {
-    var mustSave = retireAmount;
-    var jsonAnswer = '{"monthlyRequiredSavings":"' + mustSave + '"}';
-    return jsonAnswer;
+    return retireAmount;
 };
 
 var hardFunct = function() {
