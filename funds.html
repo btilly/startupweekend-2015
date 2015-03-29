@@ -229,110 +229,184 @@ Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, ad
       <!--main content start-->
       <section id="main-content">
           <section class="wrapper site-min-height">
-          	<h3><i class="fa fa-angle-right"></i> Fast and Fun Retirement Calculator</h3>
-		
-		<div class="alert alert-danger hidden " id="form-error">
-			Be sure to fill in all the fields and let's calculate!
-		</div>
-                <form class="form-horizontal style-form" method="get">
-          	<div class="row mt">
-          		<div class="col-lg-6">
+          	<h3><i class="fa fa-angle-right"></i> Our recommendation</h3>
 
+<div data-aid="5844d8" data-usn-element-name="a-funds-top_performers_on_main" class="mod-a sep top_performers_on_main">
+  <style type="text/css">
+  /* Top Performer Widget */
 
-                  <div class="form-panel">
-                  	  <h4 class="mb"><i class="fa fa-angle-right"></i> Retirement Information </h4>
-                          <div class="form-group">
-                              <label class="col-sm-3 control-label">Desired Annual Net Income (in thousands)</label>
-			      <div class="col-sm-9">
-                                  <input type="text" class="form-control" name="desiredSlider" id="desiredSlider">
-					<br/>
-                              <label class="col-sm-1 control-label tight pre">$</label>
-				<div class="col-sm-2 tight">
-  				<input class="form-control" type="text" id="desired" name="desired">
-				</div>
-                              <label class="col-sm-1 control-label tight post">,000</label>
-<!--
-<div class="input-group">
-  <span class="input-group-addon pre">$</span>
-  <input type="text" class="form-control" id="desired" name="desired">
+.topPerformers_tabs .tab {
+    font-weight: bold;
+    float: left;
+    width: 33%;
+}
+
+.topPerformers_tabs .tab:first-child {
+    width: 34%;
+}
+
+.topPerformers_tabs .tab a {
+    border: 1px solid #DDD;
+    border-bottom: none;
+    background-color: #f3f3f3;
+    text-align: center;
+    font-size: 14px;
+    color: black;
+    text-decoration: none;
+    padding: 12px 0;
+    display: block;
+}
+
+.topPerformers_tabs .tab.active a {
+    background-color: white;
+    padding-bottom: 13px;
+}
+
+.topPerformers_tabs .tab + .tab a {
+    border-left: 0;
+}
+
+div#tabbed-content {
+  margin: -1px 0 15px 0;
+  padding: 10px;
+  border: 1px solid #DDD;
+  background-color: white;
+}
+
+div#tabbed-content .hr { border:none; margin: 10px 0; }
+div#tabbed-content p.fund-category { margin: 4px 0; }
+div#tabbed-content p.fund-name { margin: 0; }
+</style>
+<h4>Top Performing Mutual Funds <small class="as_of_date t-subdued t-normal">As of 02.04.2015</small></h4>
+Taken from <a target=_new href="http://money.usnews.com/funds/mutual-funds/us-stock">News & Ranking Advice</a> from USNews Money.
+<div class="topPerformers_tabs" id="tabs">
+  <ul class="clearfix">
+    <li class="tab active" data="tab1"><a href="#">1-Month</a></li>
+    <li class="tab" data="tab2"><a href="#">1-YEAR</a></li>
+    <li class="tab" data="tab3"><a href="#">*5-YEAR</a></li>
+  </ul>
 </div>
--->
-                              	<div class="col-sm-12">
-                                  <span class="help-block">inflation-adjusted post-tax income in today's dollars</span>
-				</div>
-				</div>
-                          </div>
-			<div class="form-group">
-                              <label class="col-sm-3 control-label">Your age</label>
-                              <div class="col-sm-2">
-                                  <input type="text" class="form-control" name="myage">
-                              </div>
-                              <label class="col-sm-3 control-label">Retirement age</label>
-                              <div class="col-sm-2">
-                                  <input type="text" class="form-control" name="retireage" placeholder="65">
-                              </div>
-				<div style="clear:both"></div>
-                              <label class="col-sm-3 control-label">Lifespan</label>
-                              <div class="col-sm-2">
-                                  <input type="text" class="form-control" name="lifespan" placeholder="90">
-                              </div>
-                	</div>
-			<div class="form-group">
-                              <label class="col-sm-3 control-label">Existing savings</label>
-                              <div class="col-sm-3">
-                                  <input type="text" class="form-control" name="savings">
-                              </div>
-			</div>
-                  	<h4 class="mb"><i class="fa fa-angle-right"></i> Assumptions </h4>
-			<div class="form-group">
-                              <label class="col-sm-2 control-label">Expected Social Security</label>
-                              <label style="text-align: right" class="col-sm-1 control-label">$</label>
-                              <div class="col-sm-3">
-                                  <input type="text" class="form-control input-dollar" name="socialsecurity" placeholder="0">
-                                  <span class="help-block">monthly social security income</span>
-                              </div>
-                	</div>
-                          <div class="form-group">
-				<label class="col-sm-3 control-label">Inflation index at</label>
-                              <div class="col-sm-2">
-                                  <input type="text" class="form-control" name="inflation" placeholder="3">
-                              </div>
-                              <label class="col-sm-1 control-label">%</label>
-			
-			</div>
-			<div class="form-group">
-                              <label class="col-sm-3 control-label">Savings Interest Rate</label>
-                              <div class="col-sm-2">
-                                  <input type="text" class="form-control" name="interest" placeholder="10">
-                              </div>
-                              <label class="col-sm-1 control-label">%</label>
-                	</div>
-			<div class="form-group">
-                              <div class="col-sm-5 text-center">
-			<button class="btn btn-primary btn-lg" type="button" id="calculate">Plan it!</button>
-                              </div>
-			</div>
-		</div></div>
-                <div class="col-lg-6">
-                  <div class="form-panel">
-                  	  <h4 class="mb"><i class="fa fa-angle-right"></i> Horizon Plan</h4>
-                          <div class="form-group">
-                              <div class="col-sm-5 text-center hidden">
-				You will need to save 
-				$<span id="saving-answer"><span>
-				</div>
-			  </div>
-			<div style="height: 600px"></div>
-				
-				
-		  </div>
-          	</div>
-		</form>
-			
-		</section><! --/wrapper -->
-      </section><!-- /MAIN CONTENT -->
 
-      <!--main content end-->
+<div id="tabbed-content">
+  <div id="tab1" style="display: block;">
+    <p class="fund-name">
+          <a target=_new href="http://money.usnews.com/funds/mutual-funds/equity-precious-metals/ocm-gold-fund/ocmgx" class="t-normal">OCM Gold Fund</a>
+          <span class="ticker t-normal">(OCMGX)</span>
+        </p>
+        <p class="fund-category">
+          <span class="category1">Commodities Funds | </span>
+            <a target=_new href="http://money.usnews.com/funds/mutual-funds/rankings/equity-precious-metals">Equity Precious Metals</a>
+          
+        </p>
+        <p class="t-close">Total Return: <span class="up-arrow">18.43%</span></p>
+      
+     <div class="hr"></div>
+     <p class="fund-name">
+          <a target=_new href="http://money.usnews.com/funds/mutual-funds/equity-precious-metals/american-century-quantitative-equity-funds-global-gold-fund/acggx" class="t-normal">American Century Quantitative Equity Funds Global Gold Fund</a>
+          <span class="ticker t-normal">(ACGGX)</span>
+        </p>
+        <p class="fund-category">
+          <span class="category1">Commodities Funds | </span>
+            <a target=_new href="http://money.usnews.com/funds/mutual-funds/rankings/equity-precious-metals">Equity Precious Metals</a>
+          
+        </p>
+        <p class="t-close">Total Return: <span class="up-arrow">18.07%</span></p>
+      
+     <div class="hr"></div>
+     <p class="fund-name">
+          <a target=_new href="http://money.usnews.com/funds/mutual-funds/equity-precious-metals/fidelity%C2%AE-select-gold-portfolio/fgdax" class="t-normal">Fidelity&reg; Select Gold Portfolio</a>
+          <span class="ticker t-normal">(FGDAX)</span>
+        </p>
+        <p class="fund-category">
+          <span class="category1">Commodities Funds | </span>
+            <a target=_new href="http://money.usnews.com/funds/mutual-funds/rankings/equity-precious-metals">Equity Precious Metals</a>
+          
+        </p>
+        <p class="t-close">Total Return: <span class="up-arrow">17.08%</span></p>
+      
+     <div class="hr"></div>
+    
+  </div> <div id="tab2" style="display: none;">
+    <p class="fund-name">
+          <a target=_new href="http://money.usnews.com/funds/mutual-funds/india-equity/matthews-india-fund/mindx" class="t-normal">Matthews India Fund</a>
+          <span class="ticker t-normal">(MINDX)</span>
+        </p>
+        <p class="fund-category">
+          <span class="category1">International Funds | </span>
+            <a target=_new href="http://money.usnews.com/funds/mutual-funds/rankings/india-equity">India Equity</a>
+          
+        </p>
+        <p class="t-close">Total Return: <span class="up-arrow">85.03%</span></p>
+      
+     <div class="hr"></div>
+     <p class="fund-name">
+          <a target=_new href="http://money.usnews.com/funds/mutual-funds/india-equity/alps-%7C-kotak-india-growth/indax" class="t-normal">ALPS | Kotak India Growth</a>
+          <span class="ticker t-normal">(INDAX)</span>
+        </p>
+        <p class="fund-category">
+          <span class="category1">International Funds | </span>
+            <a target=_new href="http://money.usnews.com/funds/mutual-funds/rankings/india-equity">India Equity</a>
+          
+        </p>
+        <p class="t-close">Total Return: <span class="up-arrow">68.87%</span></p>
+      
+     <div class="hr"></div>
+     <p class="fund-name">
+          <a target=_new href="http://money.usnews.com/funds/mutual-funds/india-equity/franklin-india-growth-fund/fingx" class="t-normal">Franklin India Growth Fund</a>
+          <span class="ticker t-normal">(FINGX)</span>
+        </p>
+        <p class="fund-category">
+          <span class="category1">International Funds | </span>
+            <a target=_new href="http://money.usnews.com/funds/mutual-funds/rankings/india-equity">India Equity</a>
+          
+        </p>
+        <p class="t-close">Total Return: <span class="up-arrow">62.18%</span></p>
+      
+     <div class="hr"></div>
+    
+  </div> <div id="tab3" style="display: none;">
+    <p class="fund-name">
+          <a target=_new href="http://money.usnews.com/funds/mutual-funds/health/fidelity%C2%AE-select-biotechnology-portfolio/fbiox" class="t-normal">Fidelity&reg; Select Biotechnology Portfolio</a>
+          <span class="ticker t-normal">(FBIOX)</span>
+        </p>
+        <p class="fund-category">
+          <span class="category1">Sector Funds | </span>
+            <a target=_new href="http://money.usnews.com/funds/mutual-funds/rankings/health">Health</a>
+          
+        </p>
+        <p class="t-close">Total Return: <span class="up-arrow">33.26%</span></p>
+      
+     <div class="hr"></div>
+     <p class="fund-name">
+          <a target=_new href="http://money.usnews.com/funds/mutual-funds/health/fidelity-advisor%C2%AE-biotechnology-fund/fbtax" class="t-normal">Fidelity Advisor&reg; Biotechnology Fund</a>
+          <span class="ticker t-normal">(FBTAX)</span>
+        </p>
+        <p class="fund-category">
+          <span class="category1">Sector Funds | </span>
+            <a target=_new href="http://money.usnews.com/funds/mutual-funds/rankings/health">Health</a>
+          
+        </p>
+        <p class="t-close">Total Return: <span class="up-arrow">32.71%</span></p>
+      
+     <div class="hr"></div>
+     <p class="fund-name">
+          <a target=_new href="http://money.usnews.com/funds/mutual-funds/health/franklin-biotechnology-discovery-fund/fbdix" class="t-normal">Franklin Biotechnology Discovery Fund</a>
+          <span class="ticker t-normal">(FBDIX)</span>
+        </p>
+        <p class="fund-category">
+          <span class="category1">Sector Funds | </span>
+            <a target=_new href="http://money.usnews.com/funds/mutual-funds/rankings/health">Health</a>
+          
+        </p>
+        <p class="t-close">Total Return: <span class="up-arrow">30.79%</span></p>
+      
+     <div class="hr"></div>
+    
+  </div>
+<span class="t t-subdued">* Annualized</span>
+</div>
+
+</div>
       <!--footer start-->
       <footer class="site-footer">
           <div class="text-center">
@@ -362,6 +436,21 @@ Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, ad
     <script src="js/calculator.js"></script>
 
     <!--script for this page-->
+<script type="text/javascript">
+    $(function() {
+	$('.tab').click( function (){
+		var that = $(this);
+		$('#tabs li').each(function(){
+			$(this).removeClass('active');
+			var tabname=$(this).attr('data');
+			$('#' + tabname).hide();
+		});
+		that.addClass('active');
+		var tabname = that.attr('data');
+		$('#' + tabname).show();
+	});
+    });
+</script>
     
   <script>
       // Setup function for sliders.
