@@ -64,9 +64,9 @@ function doCal(data) {
     var inflationRate = Number(data.assumptions.inflationRate);
     var expectedSS = Number(data.assumptions.expectedFromSS);
     
-    var retiredAmount = calcPresentRetireMoneys(desiredIncome - expectedSS,
-            retirementInterestRate - inflationRate, numYearsWithIncome, 0);
-    var annualRetireAmount = calcMonthlyComps(retiredAmount - currSavings,
+    var retiredAmount = calcNeededMoneysAtRetire(desiredIncome - expectedSS,
+            retirementInterestRate - inflationRate, numYearsWithIncome);
+    var annualRetireAmount = calcYearlyComps(retiredAmount - currSavings,
             savingsInterestRate - inflationRate, numYearsWithSavings);
     monthlyRetireAmount = annualRetireAmount / 12;  // It was annual.
     
@@ -89,7 +89,7 @@ function doCal(data) {
     return hardFunct;
 }
 /**
- * Calculate the monthly saving amount based on the total amount needed at the
+ * Calculate the annual saving amount based on the total amount needed at the
  * start of retirement.
  *
  * @param {Number} howMuchWanted  Total amount needed at the start of retirement
@@ -97,11 +97,15 @@ function doCal(data) {
  * @param {Number} workingYears   Number of years before retirement.
  * @returns {Number}              Amount needed to be saved each month.
  */
-function calcMonthlyComps(howMuchWanted, interestRate, workingYears) {
+function calcYearlyComps(howMuchWanted, interestRate, workingYears) {
     var r = interestRate / 100.0;
     var foo = 1 - Math.pow((1 + r), -workingYears);
     if (foo < 1e-4) {
-        return howMuchWanted;
+        if (workingYears >= 1) {
+            return howMuchWanted / workingYears;
+        } else {
+            return howMuchWanted;
+        }
     } else {
         return r * howMuchWanted / foo;
     }
@@ -111,18 +115,17 @@ function calcMonthlyComps(howMuchWanted, interestRate, workingYears) {
  * @param {Number} desiredIncome
  * @param {Number} interestRate
  * @param {Number} retireYears
- * @param {Number} workingYears
  * @returns {Number}
  */
-function calcPresentRetireMoneys(desiredIncome, interestRate, retireYears,
-        workingYears) {
+function calcNeededMoneysAtRetire(desiredIncome, interestRate, retireYears) {
     var r = interestRate / 100.0;
     var i;
     var moneysAtRetire;
     for (i = 1, moneysAtRetire = 0; i <= retireYears; i++) {
-        moneysAtRetire += Math.pow((1 + r), i) - 1;
+        var foo = Math.pow((1 + r), i);
+        moneysAtRetire += desiredIncome * foo;
     }
-    moneysAtRetire = desiredIncome * (moneysAtRetire + 1);
+//    moneysAtRetire = desiredIncome * (moneysAtRetire + 1);
     // Now, do present value calc to get the retireMoneys back to current time.
     return moneysAtRetire;
 }
