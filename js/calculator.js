@@ -1,12 +1,5 @@
 /**  Global value.  Amount to save each month.  Main return of the calculator.*/
 var monthlyRetireAmount = 0;
-/**
- * Number of years from now until retirement.
- * Assume constantly put into retirement savings.
- */
-var numYearsWithIncome;
-/**  Number of years from retirement.  */
-var numYearsWithSavings;
 /**  Combination of savings, contributions, and withdrawls.  */
 var netWorthEachYear = [];
 
@@ -52,13 +45,13 @@ function doCal(data) {
     var desiredIncome = Number(data.annualDesiredIncome.annualIncome);
     var incomeFromAge = Number(data.annualDesiredIncome.incomeFromAge);
     var incomeToAge = Number(data.annualDesiredIncome.incomeToAge);
-    numYearsWithIncome = incomeToAge - incomeFromAge;
+    var numYearsWithIncome = incomeToAge - incomeFromAge;
     
     var currSavings = Number(data.savingsInfo.currentSavings);
     var savingsInterestRate = Number(data.savingsInfo.savingInterestRate);
     var savingsFromAge = Number(data.savingsInfo.fromAge);
     var savingsToAge = Number(data.savingsInfo.toAge);
-    numYearsWithSavings = savingsToAge - savingsFromAge;
+    var numYearsWithSavings = savingsToAge - savingsFromAge;
     
     var retirementInterestRate = Number(data.assumptions.interestRate);
     var inflationRate = Number(data.assumptions.inflationRate);
@@ -80,9 +73,11 @@ function doCal(data) {
     }
 
     r = (retirementInterestRate - inflationRate) * 1e-2;
+    var newDollars = 0;
     for(i = numYearsWithSavings; 
         i < (numYearsWithSavings + numYearsWithIncome); i++) {
-        dollars = (dollars + expectedSS - desiredIncome) * (1 + r);
+        newDollars = (dollars + expectedSS - desiredIncome) * (1 + r);
+        dollars = newDollars;
         netWorthEachYear[i] = dollars;
     }
     
@@ -107,7 +102,12 @@ function calcYearlyComps(howMuchWanted, interestRate, workingYears) {
             return howMuchWanted;
         }
     } else {
-        return r * howMuchWanted / foo;
+        var answer = 0;
+        foo = (1 + r);
+        for (var i = 1; i <= workingYears; i++) {
+            answer += Math.pow(foo, i);
+        }
+        return howMuchWanted / answer;
     }
 }
 /**
@@ -122,10 +122,9 @@ function calcNeededMoneysAtRetire(desiredIncome, interestRate, retireYears) {
     var i;
     var moneysAtRetire;
     for (i = 1, moneysAtRetire = 0; i <= retireYears; i++) {
-        var foo = Math.pow((1 + r), i);
+        var foo = Math.pow((1 - r), i);
         moneysAtRetire += desiredIncome * foo;
     }
-//    moneysAtRetire = desiredIncome * (moneysAtRetire + 1);
     // Now, do present value calc to get the retireMoneys back to current time.
     return moneysAtRetire;
 }
@@ -145,17 +144,3 @@ var hardFunct = function(args) {
         return netWorthEachYear;
     }
 };
-function calcFutureValue(principal, interestRate, time) {
-    // futureVal = principal * (1 + rate / n) ^ (n*t)
-    //             principal = initial investment
-    //             rate = interest rate as a decimal, not a percent
-    //             n = number of times per year the compounding takes place
-    //             t = duration of investment in years
-    //
-    //             n = 1  for simplicity of demo
-    // futureVal = principal * (1 + r) ^ t
-    var r = interestRate / 100.0;
-    var futureVal = principal * Math.pow((1 + r), time);
-    
-    return futureVal;
-}
