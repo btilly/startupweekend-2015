@@ -2297,11 +2297,15 @@ hr {
 	padding-right: 20px;
 	border-color: transparent;
 }
+.btn-primary:hover{
+	background: black;
+}
 .form-panel {
 	border-radius: 6px;
 	box-shadow: none;
 	border-top: 1px solid #35bdb3;
 	margin: 5px;
+	float: left;
 }
 #sidebar {
 	background: black;
@@ -2313,4 +2317,9 @@ hr {
 }
 .onright {
 	padding-left: 5px;
+}
+.bigbold {
+	font-size: 20px;
+	color: #35bdb3;
+	font-weight: bold;
 }

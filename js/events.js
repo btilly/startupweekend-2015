@@ -1,4 +1,5 @@
 $(function(){
+	var graph_ready = false;
 	$('#calculate').click(function(){
 		var form_ok = true;
 		var form_value = function (name) {
@@ -19,7 +20,7 @@ $(function(){
                                    incomeToAge: form_value('lifespan')
 				},
                                savingsInfo: {
-                                   currentSavings: form_value('savings'),
+                                   currentSavings: form_value('savings') * 1000,
                                    savingInterestRate: form_value('interest'),
                                    fromAge: form_value('myage'),
                                    toAge: form_value('retireage')
@@ -40,6 +41,8 @@ $(function(){
 			$('#saving-answer').html(cal().toFixed(2), 2)
                         graphWorthData(cal('worthData'))
 			$('#saving-answer').closest('.hidden').removeClass('hidden');
+			$('#question').hide();
+			$.recompute_ready = true;
 			
 		}
 	});
