@@ -95,8 +95,7 @@ function doCal(data) {
  */
 function calcYearlyComps(howMuchWanted, interestRate, workingYears) {
     var r = interestRate / 100.0;
-    var foo = 1 - Math.pow((1 + r), -workingYears);
-    if (foo < 1e-4) {
+    if (r < 1e-4) {
         if (workingYears >= 1) {
             return howMuchWanted / workingYears;
         } else {
@@ -104,7 +103,7 @@ function calcYearlyComps(howMuchWanted, interestRate, workingYears) {
         }
     } else {
         var answer = 0;
-        foo = (1 + r);
+        var foo = (1 - r);
         for (var i = 1; i <= workingYears; i++) {
             answer += Math.pow(foo, i);
         }

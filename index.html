@@ -443,14 +443,15 @@ Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, ad
       }
 
       var morrisWorthGraph;
-      function graphWorthData (worths) {
-          var data = dataForWorthGraph(worths);
+      function graphWorthData (data) {
+//      function graphWorthData (worths) {
+//          var data = dataForWorthGraph(worths);
           if (morrisWorthGraph === undefined) {
               morrisWorthGraph = Morris.Area({
                   element: 'worth-graph',
                   data: data,
                   xkey: 'year',
-                  ykeys: ['worth'],
+                  ykeys: ['percent-10'],
                   hideHover: 'auto',
                   labels: ['Net Worth'],
                   lineWidth: 3,

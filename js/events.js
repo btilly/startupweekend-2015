@@ -38,12 +38,30 @@ $(function(){
 		}else{
 			$('#form-error').addClass('hidden');
 			var cal = doCal(data);
-			$('#saving-answer').html(cal().toFixed(2), 2)
-                        graphWorthData(cal('worthData'))
-			$('#saving-answer').closest('.hidden').removeClass('hidden');
-			$('#question').hide();
-			$.recompute_ready = true;
-			
+`
+                        var monthlySavings = cal().toFixed(2);
+			$('#saving-answer').html(monthlySavings, 2)
+                        
+                        // Ed's graph.
+                        //var graphData = dataForWorthGraph(cal('worthData'));
+                        //graphWorthData(graphData);
+                        
+                        // Ben's graph
+                        var options = {
+                                           initialInvestment: form_value('savings'),
+                                           interestRate: form_value('interest') * 1e-2,
+                                           savingRate: monthlySavings * 12,
+                                           retirementIncome: form_value('desired') * 1000,
+                                           incomeFromAge: form_value('myage'),
+                                           incomeToAge: form_value('retireage'),
+                                           retirementToAge: form_value('lifespan')
+                                   };
+                        graphData = calcDistribution(options);
+                        graphWorthData(graphData);                        
+
+		    $('#question').hide();
+                    $('#saving-answer').closest('.hidden').removeClass('hidden');
+		    $.recompute_ready = true;
 		}
 	});
 });
