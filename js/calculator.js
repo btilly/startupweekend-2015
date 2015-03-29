@@ -56,10 +56,43 @@ function doCal(jsonData) {
     var expectedSS = data.assumptions.expectedFromSS;
     var totalIncomes = (desiredIncome - expectedSS) * numYearsWithIncome;
     
+    var testMoney = calcPresentRetireMoneys(100, 5.0, 1, 0);
+    console.log(testMoney);
+    testMoney = calcPresentRetireMoneys(100, 5.0, 2, 0);
+    console.log(testMoney);
+    testMoney = calcPresentRetireMoneys(100, 5.0, 3, 0);
+    console.log(testMoney);
+
+    retireAmount = calcPresentRetireMoneys(desiredIncome - expectedSS,
+            retirementInterestRate, numYearsWithIncome, numYearsWithSavings);
+    
     return simpleFunct;
 }
+/**  Global value.  Amount to save each month.  Main return of the calculator.*/
+var retireAmount = 0;
+/**
+ * 
+ * @param {type} desiredIncome
+ * @param {type} interestRate
+ * @param {type} retireYears
+ * @param {type} workingYears
+ * @returns {Number}
+ */
+function calcPresentRetireMoneys(desiredIncome, interestRate, retireYears,
+        workingYears) {
+    var r = interestRate / 100.0;
+    var i;
+    var moneysAtRetire;
+    for (i = 1, moneysAtRetire = 0; i <= retireYears; i++) {
+        moneysAtRetire += Math.pow((1 + r), i) - 1;
+    }
+    moneysAtRetire = desiredIncome * (moneysAtRetire + 1);
+    // Now, do present value calc to get the retireMoneys back to current time.
+    var currRetireMoneys = moneysAtRetire / Math.pow((1 + r), workingYears);
+    return currRetireMoneys;
+}
 var simpleFunct = function() {
-    var mustSave = 1000;
+    var mustSave = retireAmount;
     var jsonAnswer = '{"monthlyRequiredSavings":"' + mustSave + '"}';
     return jsonAnswer;
 };
