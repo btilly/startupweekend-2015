@@ -13,6 +13,7 @@
     <link href="assets/css/bootstrap.css" rel="stylesheet">
     <!--external css-->
     <link href="assets/font-awesome/css/font-awesome.css" rel="stylesheet" />
+    <link href="assets/css/slider.css" rel="stylesheet">
         
     <!-- Custom styles for this template -->
     <link href="assets/css/style.css" rel="stylesheet">
@@ -317,6 +318,7 @@ Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, ad
 
     <!-- js placed at the end of the document so the pages load faster -->
     <script src="assets/js/jquery.js"></script>
+    <script src="assets/js/bootstrap-slider.js"></script>
     <script src="assets/js/bootstrap.min.js"></script>
     <script src="assets/js/jquery-ui-1.9.2.custom.min.js"></script>
     <script src="assets/js/jquery.ui.touch-punch.min.js"></script>
@@ -332,10 +334,46 @@ Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, ad
     
   <script>
       //custom select box
-
       $(function(){
           $('select.styled').customSelect();
       });
+
+      // Setup function for sliders.
+      function setupSlider (options) {
+          // set up variables;
+          var sliderSel = '#' + options.sliderId;
+          var inputSel = '#' + options.inputId;
+          var updateInput = true;
+          var scale = (options.scale === undefined) ? 2 : options.scale;
+
+          // set default options
+          if (options.step === undefined) {
+              options.step = Math.pow(0.1, scale);
+          }
+          options.handle = options.handle || 'round';
+          options.tooltip = options.tooltip || 'hide';
+          if (options.min === undefined) {
+              options.min = 0;
+          }
+          if (options.max === undefined) {
+              options.max = 10;
+          }
+
+          // Set up functionality.
+          options['formater'] = function (value) {
+              value = Number(value.toFixed(scale));
+              if (updateInput) {
+                  $(inputSel).val(value);
+              }
+              return 'Current value: '+value;
+          };
+          $(sliderSel).slider(options);
+          $(inputSel).keyup(function () {
+              updateInput = false;
+              $(sliderSel).slider('setValue', $(inputSel).val());
+              updateInput = true;
+          });
+      }
 
   </script>
 
