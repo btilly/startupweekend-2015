@@ -1,5 +1,5 @@
 /**  Global value.  Amount to save each month.  Main return of the calculator.*/
-var retireAmount = 0;
+var monthlyRetireAmount = 0;
 /**
  * Number of years from now until retirement.
  * Assume constantly put into retirement savings.
@@ -49,43 +49,40 @@ var netWorthEachYear = [];
  * @returns {Function}            A function that returns the monthly savings.
  */
 function doCal(data) {
-    var desiredIncome = data.annualDesiredIncome.annualIncome;
-    var incomeFromAge = data.annualDesiredIncome.incomeFromAge;
-    var incomeToAge = data.annualDesiredIncome.incomeToAge;
+    var desiredIncome = Number(data.annualDesiredIncome.annualIncome);
+    var incomeFromAge = Number(data.annualDesiredIncome.incomeFromAge);
+    var incomeToAge = Number(data.annualDesiredIncome.incomeToAge);
     numYearsWithIncome = incomeToAge - incomeFromAge;
     
-    var currSavings = data.savingsInfo.currentSavings;
-    var savingsInterestRate = data.savingsInfo.savingInterestRate;
-    var savingsFromAge = data.savingsInfo.fromAge;
-    var savingsToAge = data.savingsInfo.toAge;
+    var currSavings = Number(data.savingsInfo.currentSavings);
+    var savingsInterestRate = Number(data.savingsInfo.savingInterestRate);
+    var savingsFromAge = Number(data.savingsInfo.fromAge);
+    var savingsToAge = Number(data.savingsInfo.toAge);
     numYearsWithSavings = savingsToAge - savingsFromAge;
     
-    var retirementInterestRate = data.assumptions.interestRate;
-    var inflationRate = data.assumptions.inflationRate;
-    var expectedSS = data.assumptions.expectedFromSS;
+    var retirementInterestRate = Number(data.assumptions.interestRate);
+    var inflationRate = Number(data.assumptions.inflationRate);
+    var expectedSS = Number(data.assumptions.expectedFromSS);
     
-    //var testMoney = calcPresentRetireMoneys(100, 5.0, 1, 0);
-    //console.log(testMoney);
-    //testMoney = calcPresentRetireMoneys(100, 5.0, 2, 0);
-    //console.log(testMoney);
-    //testMoney = calcPresentRetireMoneys(100, 5.0, 3, 0);
-    //console.log(testMoney);
-
     var retiredAmount = calcPresentRetireMoneys(desiredIncome - expectedSS,
             retirementInterestRate - inflationRate, numYearsWithIncome, 0);
-    retireAmount = calcMonthlyComps(retiredAmount - currSavings,
+    var annualRetireAmount = calcMonthlyComps(retiredAmount - currSavings,
             savingsInterestRate - inflationRate, numYearsWithSavings);
-    retireAmount /= 12;  // It was annual.
+    monthlyRetireAmount = annualRetireAmount / 12;  // It was annual.
     
     var i;
+    var r = (savingsInterestRate - inflationRate) * 1e-2;
+
     var dollars = currSavings;
-    for(i = 0; i < numYearsWithIncome; i++) {
-        dollars += retireAmount;
+    for(i = 0; i < numYearsWithSavings; i++) {
+        dollars = (dollars + annualRetireAmount) * (1 + r);
         netWorthEachYear[i] = dollars;
     }
-    for(i = numYearsWithIncome; 
-        i < (numYearsWithIncome + numYearsWithSavings); i++) {
-        dollars += expectedSS - desiredIncome;
+
+    r = (retirementInterestRate - inflationRate) * 1e-2;
+    for(i = numYearsWithSavings; 
+        i < (numYearsWithSavings + numYearsWithIncome); i++) {
+        dollars = (dollars + expectedSS - desiredIncome) * (1 + r);
         netWorthEachYear[i] = dollars;
     }
     
@@ -137,7 +134,7 @@ function calcPresentRetireMoneys(desiredIncome, interestRate, retireYears,
  */
 var hardFunct = function(args) {
     if (args === undefined) {
-        return retireAmount;
+        return monthlyRetireAmount;
     } else {
         return netWorthEachYear;
     }
