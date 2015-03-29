@@ -365,6 +365,7 @@ Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, ad
     <script src="assets/js/common-scripts.js"></script>
     <script src="js/events.js"></script>
     <script src="js/calculator.js"></script>
+    <script src="js/distribution.js"></script>
 
     <!--script for this page-->
     
@@ -426,22 +427,28 @@ Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, ad
           return data;
       }
 
+      var morrisWorthGraph;
       function graphWorthData (worths) {
           var data = dataForWorthGraph(worths);
-          Morris.Area({
-              element: 'worth-graph',
-              data: data,
-              xkey: 'year',
-              ykeys: ['worth'],
-              hideHover: 'auto',
-              labels: ['Net Worth'],
-              lineWidth: 2,
-              pointSize: 5,
-              lineColors: ['#a9d86e'],
-              fillOpacity: 0.5,
-              smooth: true,
-              behaveLikeLine: true
-          });
+          if (morrisWorthGraph === undefined) {
+              morrisWorthGraph = Morris.Area({
+                  element: 'worth-graph',
+                  data: data,
+                  xkey: 'year',
+                  ykeys: ['worth'],
+                  hideHover: 'auto',
+                  labels: ['Net Worth'],
+                  lineWidth: 2,
+                  pointSize: 5,
+                  lineColors: ['#a9d86e'],
+                  fillOpacity: 0.5,
+                  smooth: true,
+                  behaveLikeLine: true
+              });
+          }
+          else {
+              morrisWorthGraph.setData(data);
+          }
       }
 
   (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
