@@ -239,12 +239,21 @@ Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, ad
                   <div class="form-panel">
                   	  <h4 class="mb"><i class="fa fa-angle-right"></i> Retirement Information </h4>
                           <div class="form-group">
-                              <label class="col-sm-3 control-label">Desired Net Income</label>
+                              <label class="col-sm-3 control-label">Desired Annual Net Income (in thousands)</label>
 			      <div class="col-sm-9">
-                              	<div class="col-sm-3">
-                                  <input type="text" "form-control" name="desiredSlider" id="desiredSlider">
-                                  <input type="text" class="form-control" name="desired" id="desired">
-                              	</div>
+                                  <input type="text" class="form-control" name="desiredSlider" id="desiredSlider">
+					<br/>
+                              <label class="col-sm-1 control-label tight pre">$</label>
+				<div class="col-sm-2 tight">
+  				<input class="form-control" type="text" id="desired" name="desired">
+				</div>
+                              <label class="col-sm-1 control-label tight post">,000</label>
+<!--
+<div class="input-group">
+  <span class="input-group-addon pre">$</span>
+  <input type="text" class="form-control" id="desired" name="desired">
+</div>
+-->
                               	<div class="col-sm-12">
                                   <span class="help-block">inflation-adjusted post-tax income in today's dollars</span>
 				</div>
@@ -390,9 +399,9 @@ Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, ad
         inputId: "desired",
         sliderId: "desiredSlider",
         min: 0,
-        max: 200000,
-        step: 1000,
-        value: 50000
+        max: 200,
+        step: 1,
+        value: 50
       });
 
   </script>
