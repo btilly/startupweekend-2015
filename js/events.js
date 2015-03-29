@@ -10,6 +10,7 @@ $(function(){
 			}else{
 				el.parent().removeClass('has-error');
 			}
+                        return Number(val);
 		};
 		var data = {
                                annualDesiredIncome: {
@@ -36,7 +37,8 @@ $(function(){
 		}else{
 			$('#form-error').addClass('hidden');
 			var cal = doCal(data);
-			$('#saving-answer').html(cal())
+			$('#saving-answer').html(cal().toFixed(2), 2)
+                        graphWorthData(cal('worthData'))
 			$('#saving-answer').closest('.hidden').removeClass('hidden');
 			
 		}
