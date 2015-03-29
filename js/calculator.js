@@ -42,6 +42,7 @@ var netWorthEachYear = [];
  * @returns {Function}            A function that returns the monthly savings.
  */
 function doCal(data) {
+    netWorthEachYear = [];
     var desiredIncome = Number(data.annualDesiredIncome.annualIncome);
     var incomeFromAge = Number(data.annualDesiredIncome.incomeFromAge);
     var incomeToAge = Number(data.annualDesiredIncome.incomeToAge);
