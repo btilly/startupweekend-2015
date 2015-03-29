@@ -14,7 +14,11 @@ $(function(){
 		};
 		var data = {
                                annualDesiredIncome: {
+<<<<<<< HEAD
+                                   annualIncome: form_value('desired')*1000,
+=======
                                    annualIncome: form_value('desired') * 1000,
+>>>>>>> 06a6b9a5ba9cfa6953af7cc9b9bda4a99ce84d93
                                    incomeFromAge: form_value('myage'),
                                    incomeToAge: form_value('lifespan')
 				},
