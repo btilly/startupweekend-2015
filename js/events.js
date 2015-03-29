@@ -40,7 +40,7 @@ $(function(){
                         var options = {
                                            initialInvestment: form_value('savings') * 1000,
                                            interestRate: form_value('interest') * 1e-2 - form_value('inflation') * 1e-2,
-                                           retirementIncome: form_value('desired') * 1000,
+                                           retirementIncome: form_value('desired') * 1000 - form_value('socialsecurity') * 1000,
                                            incomeFromAge: form_value('myage'),
                                            incomeToAge: form_value('retireage'),
                                            retirementToAge: form_value('lifespan')
