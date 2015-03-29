@@ -24,12 +24,11 @@ var normalSamplePoints = [
 var historicalInvestmentRate = 0.0812928519071564;
 var historicalLogNormalSD = 0.271923959338221;
 
-console.log(logNormalSamplePoints);
-
 /**
  *
  **/
 function calcDistribution (options) {
+    console.log(options);
     var initial = Number(options.initialInvestment);
     var interestRate = Number(options.interestRate);
     var savingAmount = Number(options.savingRate);
@@ -122,6 +121,7 @@ function calcDistribution (options) {
         }
     }
 
+    console.log(answer);
     return answer;
 }
 
