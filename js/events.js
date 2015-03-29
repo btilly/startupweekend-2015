@@ -37,6 +37,7 @@ $(function(){
 			$('#form-error').addClass('hidden');
 			var cal = doCal(data);
 			$('#saving-answer').html(cal())
+                        graphWorthData(cal('worthData'))
 			$('#saving-answer').closest('.hidden').removeClass('hidden');
 			
 		}
