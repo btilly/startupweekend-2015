@@ -37,26 +37,26 @@ function calcDistribution (options) {
     var retirementToAge = Number(options.retirementToAge);
 
     var currentWorth = [];
-    // NOTE: This 20 is tied to the thresholds in saveToAnswer
-    for (var i = 0; i < 20; i++) {
+    // NOTE: This 100 is tied to the thresholds in saveToAnswer
+    for (var i = 0; i < 100; i++) {
         currentWorth[i] = initial;
     }
 
     var answer = [];
     var currentYear = new Date().getFullYear();
     var findAvgWorth = function (i) {
-        return (currentWorth[i] + currentWorth[i+1])/2;
+        return currentWorth[i];
     };
     var labels = ["percent-10", "percent-30", "percent-50", "percent-70", "percent-90"];
     var saveToAnswer = function (period) {
         var thisRecord = {
             year: (currentYear + period).toString(),
             age: (period + incomeFromAge).toString(),
-            "percent-10-raw": findAvgWorth(1),
-            "percent-30-raw": findAvgWorth(5),
-            "percent-50-raw": findAvgWorth(9),
-            "percent-70-raw": findAvgWorth(13),
-            "percent-90-raw": findAvgWorth(17)
+            "percent-10-raw": findAvgWorth(9),
+            "percent-30-raw": findAvgWorth(29),
+            "percent-50-raw": findAvgWorth(49),
+            "percent-70-raw": findAvgWorth(69),
+            "percent-90-raw": findAvgWorth(89)
         };
         for (var i = 0; i < labels.length; i++) {
             var value = thisRecord[labels[i] + "-raw"];
@@ -94,6 +94,13 @@ function calcDistribution (options) {
                 sum += nextWorth[k];
             }
             currentWorth[j] = sum / size;
+            var limit = 1e9;
+            if (currentWorth[j] < - limit) {
+                currentWorth[j] = - limit;
+            }
+            else if (limit < currentWorth[j]) {
+                currentWorth[j] = limit;
+            }
         }
     }
 
@@ -123,6 +130,14 @@ function calcDistribution (options) {
                 sum += nextWorth[k];
             }
             currentWorth[j] = sum / size;
+            // overflow errors.
+            var limit = 1e9;
+            if (currentWorth[j] < - limit) {
+                currentWorth[j] = - limit;
+            }
+            else if (limit < currentWorth[j]) {
+                currentWorth[j] = limit;
+            }
         }
     }
 
@@ -134,10 +149,8 @@ function calcSavingAmount (inputOptions) {
     var lowerBound = 0;
     var upperBound = 100;
     options["savingAmount"] = upperBound * 12;
-    //console.log(options);
     var data = calcDistribution(options);
     while (data[ data.length - 1 ]["percent-50-raw"] < 0) {
-        //console.log({lower: lowerBound, upper:upperBound, value: data[ data.length - 1 ]["percent-50-raw"]})
         lowerBound = upperBound;
         upperBound = 2 * upperBound;
         options.savingAmount = upperBound * 12;
@@ -145,7 +158,6 @@ function calcSavingAmount (inputOptions) {
     }
 
     while (lowerBound + 0.015 < upperBound) {
-        //console.log({lower: lowerBound, upper:upperBound, value: data[ data.length - 1 ]["percent-50-raw"]})
         var midBound = Number(((lowerBound + upperBound)/2).toFixed(2));
         options.savingAmount = midBound * 12;
         data = calcDistribution(options);
